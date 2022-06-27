@@ -1,14 +1,13 @@
 <template>
-  <p>Zipify Banners ({{ counter }})</p>
-
-  <button type="button" @click="increment">
-    Click Me!
-  </button>
+    <router-view/>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script>
+    // import HomePage from './components/homePage/HomePage.vue'
 
-const counter = ref(1);
-const increment = () => counter.value++;
+    // export default {
+    //     components: {
+    //         HomePage
+    //     }
+    // }
 </script>
