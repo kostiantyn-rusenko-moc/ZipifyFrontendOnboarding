@@ -1,5 +1,4 @@
 <template>
-
     <div class="bl-editor-container" id="editor-container">
     </div>
 </template>
@@ -8,25 +7,25 @@
     export default {
         methods: {
             editorUp() {
-                var toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+                const toolbarOptions = [
+                    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
 
-  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+                    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
 
-  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-  [{ 'font': [] }],
-  [{ 'align': [] }],
+                    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+                    [{ 'font': [] }],
+                    [{ 'align': [] }],
 
-  ['clean']                                         // remove formatting button
-];
-                var quill = new Quill('#editor-container', {
-  modules: {
-    toolbar: toolbarOptions
-  },
-  placeholder: 'Compose an epic...',
-  theme: 'snow'  // or 'bubble'
-});
+                    ['clean']                                         // remove formatting button
+                ];
+                const quill = new Quill('#editor-container', {
+                    modules: {
+                        toolbar: toolbarOptions
+                    },
+                    placeholder: 'Compose an epic...',
+                    theme: 'snow'  // or 'bubble'
+                });
             }
         },
         mounted() {
