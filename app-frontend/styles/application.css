@@ -1,14 +1,22 @@
 @import 'constColors.css';
 
-body {
+body, html {
+  margin: 0;
+  height: 100%;
   background-color: var(--color-white);
+  font-family: 'Inter';
 }
 
-.app {
+.bl-app {
   height: 100%;
 }
 
-.btn {
+.bl-btn {
   cursor: pointer;
   border: none;
+}
+
+.bl-link {
+  text-decoration: none;
+  color: var(--color-black);
 }

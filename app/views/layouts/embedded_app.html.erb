@@ -5,6 +5,11 @@
     <title>ZipifyBanners</title>
     <%= csrf_meta_tags %>
     <%= stylesheet_bundle_tag 'application' %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet" />
+  <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
   </head>
   <body>
     <%= content_tag(:div, nil, id: 'shopify-app-init', data: {

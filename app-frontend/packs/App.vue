@@ -1,13 +1,12 @@
 <template>
-    <router-view/>
+   <div class="main">
+        <router-view/>
+   </div>
 </template>
 
-<script>
-    // import HomePage from './components/homePage/HomePage.vue'
-
-    // export default {
-    //     components: {
-    //         HomePage
-    //     }
-    // }
-</script>
+<style>
+    .main {
+        height: 100%;
+        /* background-color: red; */
+    }
+</style>
