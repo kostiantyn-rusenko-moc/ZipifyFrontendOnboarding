@@ -25,7 +25,7 @@
 
     .bl-create-btn:hover {
         box-shadow: 0px 5px 7px var(--color-dark-grey);
-        border: .2px solid #b3b3b3;
+        border: .2px solid var(--color-grey-border);
     }
 
     .bl-btn__link {

@@ -37,7 +37,7 @@
     .bl-main__skeleton {
         width: 400px;
         height: 30px;
-        border: 2px solid #000;
+        border: 2px solid var(--color-black);
         border-radius: 5px;
         display: flex;
         justify-content: center;

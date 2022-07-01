@@ -30,7 +30,7 @@
 <style>
     .bl-header {
         width: 100%;
-        background-color: #9ADAF3;
+        background-color: var(--color-header);
         border-radius: 25px;
         display: flex;
         justify-content: space-between;

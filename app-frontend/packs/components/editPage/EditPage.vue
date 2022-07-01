@@ -1,7 +1,7 @@
 <template>
     <div class="bl-edit__main">
         <div class="bl-main__left">
-            <form class="bl-main__form">
+            <form class="bl-main__form" @submit.prevent="submit">
                 <div class="bl-form__field">
                     <label class="bl-form__label">Message</label>
                     <input class="bl-form__input" type="text" v-model="form.message"/>
@@ -14,7 +14,7 @@
                     <label class="bl-form__label">Background color</label>
                     <input class="bl-form__input bl-form__input-color" type="color" v-model="form.color"/>
                 </div>
-                <EditForm/>
+                <EditForm v-model="form.wysiwyg"/>
                 <button class="bl-from__submit" type="submit">Submit</button>
             </form>
         </div>
@@ -65,13 +65,20 @@
                 form: {
                     product_id: Number,
                     message: '',
-                    color: String
+                    color: String,
+                    wysiwyg: String
                 },
             }
         },
         components: {
             EditForm,
             PreviewForm
+        },
+          methods: {
+            async submit() {
+                console.log(this.form);
+                this.$emit('submit', this.form)
+            }
         },
     }
 </script>
@@ -85,7 +92,7 @@
     }
 
     .bl-main__left {
-        border-right: 1px solid #000;
+        border-right: 1px solid var(--color-black);
         height: 100%;
         width: 40%;
         display: flex;

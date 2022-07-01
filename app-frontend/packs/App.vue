@@ -1,12 +1,11 @@
 <template>
-   <div class="main">
+   <div class="bl-main">
         <router-view/>
    </div>
 </template>
 
 <style>
-    .main {
+    .bl-main {
         height: 100%;
-        /* background-color: red; */
     }
 </style>

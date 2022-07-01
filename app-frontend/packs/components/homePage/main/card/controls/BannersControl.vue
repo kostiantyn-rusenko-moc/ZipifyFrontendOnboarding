@@ -42,7 +42,7 @@
 <style>
     .bl-global {
         position: fixed;
-        background-color: #000;
+        background-color: var(--color-black);
         opacity: 0.4;
         min-width: 100%;
         min-height: 100%;
