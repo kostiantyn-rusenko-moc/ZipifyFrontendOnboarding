@@ -1,13 +1,15 @@
 <template>
     <div class="bl-editor-container" id="editor-container">
     </div>
+    <button type="button" @click="getQuill">Get</button>
 </template>
 
 <script>
     export default {
-        methods: {
-            editorUp() {
-                const toolbarOptions = [
+        data() {
+            return {
+                quill: Object,
+                toolbarOptions: [
                     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
                     [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
 
@@ -16,16 +18,23 @@
                     [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
                     [{ 'font': [] }],
                     [{ 'align': [] }],
-
+                    
                     ['clean']                                         // remove formatting button
-                ];
-                const quill = new Quill('#editor-container', {
+                ]
+            }
+        },
+        methods: {
+            editorUp() {
+                this.quill = new Quill('#editor-container', {
                     modules: {
-                        toolbar: toolbarOptions
+                        toolbar: this.toolbarOptions
                     },
                     placeholder: 'Compose an epic...',
                     theme: 'snow'  // or 'bubble'
                 });
+            },
+            getQuill() {
+                console.log(this.quill.root.innerHTML)
             }
         },
         mounted() {
