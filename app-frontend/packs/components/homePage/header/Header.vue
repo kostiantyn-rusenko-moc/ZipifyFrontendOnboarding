@@ -22,8 +22,8 @@
 
     export default {
         components: {
-    CreateButton
-}
+            CreateButton
+        }
     }
 </script>
 

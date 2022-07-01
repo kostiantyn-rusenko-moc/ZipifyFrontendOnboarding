@@ -1,5 +1,5 @@
 <template>
-    <router-link to="/Edit" 
+    <router-link to="/edit" 
         class="bl-btn__link bl-link">
             <button 
                 class="bl-create-btn bl-btn" 

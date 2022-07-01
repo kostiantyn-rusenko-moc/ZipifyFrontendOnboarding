@@ -9,7 +9,7 @@ const routes = [
         component: HomePage
     },
     {
-        path: '/Edit',
+        path: '/edit',
         name: 'EditPage',
         component: EditPage
     },

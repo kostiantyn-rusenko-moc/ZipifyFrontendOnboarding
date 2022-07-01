@@ -1,5 +1,4 @@
 <template>
-    <div></div>
     <div class="bl-card">
         <div class="bl-card__title">{{card.title}}</div>
         <div class="bl-card__example">{{card.content}}</div>
@@ -26,7 +25,6 @@
         },
         props: {
             card: {
-                // type: Object
                 title: String,
                 content: String,
             }
