@@ -1,10 +1,17 @@
 <template>
-    <div class="bl-editor-container" id="editor-container">
+    <div class="bl-editor-container"
+        @keydown="getQuill"
+        @click="getQuill">
+            <div
+                class="bl-editor-container2"
+                id="editor-container">
+            </div>
     </div>
-    <button type="button" @click="getQuill">Get</button>
 </template>
 
 <script>
+    import {mapActions, mapMutations, mapState} from 'vuex'
+
     export default {
         data() {
             return {
@@ -18,7 +25,7 @@
                     [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
                     [{ 'font': [] }],
                     [{ 'align': [] }],
-                    
+
                     ['clean']                                         // remove formatting button
                 ]
             }
@@ -30,25 +37,49 @@
                         toolbar: this.toolbarOptions
                     },
                     placeholder: 'Compose an epic...',
-                    theme: 'snow'  // or 'bubble'
+                    theme: 'snow'
                 });
             },
             getQuill() {
-                console.log(this.quill.root.innerHTML)
-            }
+                this.$store.commit('banners/setWysiwygText', this.quill.getText())
+                this.$store.commit('banners/setWysiwygHtml', this.quill.root.innerHTML)
+                console.log(this.wysiwygHtml)
+            },
+            drawHtml() {
+                const d = document.querySelector('[data-preview]');
+                console.log(d)
+            },
+            ...mapActions({
+                fetchData: "banners/fetchBanners",
+            }),
+            ...mapMutations({
+                setWysiwygText: 'banners/setWysiwygText',
+                setWysiwygHtml: 'banners/setWysiwygHtml'
+
+            })
+        },
+        computed: {
+            ...mapState({
+                wysiwygText: state => state.banners.wysiwygText,
+                wysiwygHtml: state => state.banners.wysiwygHtml
+            })
         },
         mounted() {
             this.editorUp()
-        }
+        },
     }
 </script>
 
 <style>
     .bl-editor-container {
-        width: 90%;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .ql-toolbar, .ql-snow {
         width: 90%;
+
     }
 </style>

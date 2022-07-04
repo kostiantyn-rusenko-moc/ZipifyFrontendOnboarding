@@ -1,11 +1,13 @@
 <template>
     <div class="bl-main__preview">
-        <div :style="{'background-color': form.color}" class="bl-preview__banner"><p>{{form.message}}</p></div>
+        <div :style="{'background-color': form.color}" class="bl-preview__banner"  v-html="wysiwygHtml"></div>
         <div class="bl-main__skeleton">Add To Card</div>
     </div>
 </template>
 
 <script>
+    import {mapActions, mapMutations, mapState} from 'vuex'
+
     export default {
         props: {
             form: {
@@ -13,7 +15,12 @@
                 message: '',
                 color: String
             },
-        }
+        },
+        computed: {
+            ...mapState ({
+                wysiwygHtml: state => state.banners.wysiwygHtml
+            })
+        },
     }
 </script>
 

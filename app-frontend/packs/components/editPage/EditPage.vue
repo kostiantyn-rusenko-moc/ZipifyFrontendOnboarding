@@ -2,19 +2,21 @@
     <div class="bl-edit__main">
         <div class="bl-main__left">
             <form class="bl-main__form" @submit.prevent="submit">
-                <div class="bl-form__field">
-                    <label class="bl-form__label">Message</label>
+                <div class="bl-form__field bl-form__margin">
+                    <label class="bl-form__label">Banner Title</label>
                     <input class="bl-form__input" type="text" v-model="form.message"/>
                 </div>
-                <div class="bl-form__field">
+                <div class="bl-form__field bl-form__margin">
                     <label class="bl-form__label">Product id</label>
                     <input class="bl-form__input" type="number" v-model="form.product_id"/>
                 </div>
-                <div class="bl-form__field">
+                <div class="bl-form__field bl-form__margin">
                     <label class="bl-form__label">Background color</label>
                     <input class="bl-form__input bl-form__input-color" type="color" v-model="form.color"/>
                 </div>
-                <EditForm v-model="form.wysiwyg"/>
+                <div class="bl-form__wysiwyg bl-form__margin">
+                    <EditForm v-model="form.wysiwyg"/>
+                </div>
                 <button class="bl-from__submit" type="submit">Submit</button>
             </form>
         </div>
@@ -65,7 +67,7 @@
                 form: {
                     product_id: Number,
                     message: '',
-                    color: String,
+                    color: '#FFFFFF',
                     wysiwyg: String
                 },
             }
@@ -119,7 +121,6 @@
     .bl-form__field {
         height: 150px;
         width: 90%;
-        margin: 12px 0;
         border-radius: 5px;
         border: 1px solid rgba(0, 0, 0, .05);
         box-shadow: 0px 4px 4px rgba(0, 0, 0, .25);
@@ -180,5 +181,17 @@
     
     .bl-from__submit:hover {
         cursor: pointer;
+    }
+
+    .bl-form__wysiwyg {
+        height: 30%;
+        width: 100%;
+        /* display: flex;
+        flex-direction: column;
+        align-items: center; */
+    }
+
+    .bl-form__margin {
+        margin: 12px 0;
     }
 </style>
