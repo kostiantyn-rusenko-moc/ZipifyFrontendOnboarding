@@ -1,21 +1,14 @@
 <template>
     <div class="bl-main__preview">
-        <div :style="{'background-color': form.color}" class="bl-preview__banner"  v-html="wysiwygHtml"></div>
+        <div :style="{'background-color': this.$store.state.banners.bannerColor}" class="bl-preview__banner"  v-html="wysiwygHtml"></div>
         <div class="bl-main__skeleton">Add To Card</div>
     </div>
 </template>
 
 <script>
-    import {mapActions, mapMutations, mapState} from 'vuex'
+    import { mapState} from 'vuex'
 
     export default {
-        props: {
-            form: {
-                product_id: Number,
-                message: '',
-                color: String
-            },
-        },
         computed: {
             ...mapState ({
                 wysiwygHtml: state => state.banners.wysiwygHtml
@@ -33,7 +26,7 @@
     }
 
     .bl-preview__banner {
-        width: 400px;
+        width: 345px;
         height: 50px;
         margin-bottom: 20px;
         display: flex;
@@ -42,8 +35,8 @@
     }
 
     .bl-main__skeleton {
-        width: 400px;
-        height: 30px;
+        width: 345px;
+        height: 50px;
         border: 2px solid var(--color-black);
         border-radius: 5px;
         display: flex;

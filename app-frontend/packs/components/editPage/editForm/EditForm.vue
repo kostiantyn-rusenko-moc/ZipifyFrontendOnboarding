@@ -1,16 +1,23 @@
 <template>
     <div class="bl-editor-container"
-        @keydown="getQuill"
-        @click="getQuill">
+        @keyup="getQuill"
+        @click="getQuill()">
             <div
                 class="bl-editor-container2"
                 id="editor-container">
             </div>
     </div>
+    <button
+        class="bl-editor__clear-btn"
+        type="button"
+        @click="drawHtml"
+        >
+            Clear
+    </button>
 </template>
 
 <script>
-    import {mapActions, mapMutations, mapState} from 'vuex'
+    import {mapActions, mapState} from 'vuex'
 
     export default {
         data() {
@@ -18,17 +25,15 @@
                 quill: Object,
                 toolbarOptions: [
                     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-                    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-
-                    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
 
                     [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-                    [{ 'font': [] }],
-                    [{ 'align': [] }],
 
                     ['clean']                                         // remove formatting button
                 ]
             }
+        },
+        props: {
+            wysiwyg: String,
         },
         methods: {
             editorUp() {
@@ -36,27 +41,26 @@
                     modules: {
                         toolbar: this.toolbarOptions
                     },
-                    placeholder: 'Compose an epic...',
+                    placeholder: 'Input your banner content here',
                     theme: 'snow'
                 });
+                this.fetchData()
             },
             getQuill() {
                 this.$store.commit('banners/setWysiwygText', this.quill.getText())
-                this.$store.commit('banners/setWysiwygHtml', this.quill.root.innerHTML)
-                console.log(this.wysiwygHtml)
+                if (this.quill.getText().length < 25) this.$store.commit('banners/setWysiwygHtml', this.quill.root.innerHTML)
             },
             drawHtml() {
-                const d = document.querySelector('[data-preview]');
-                console.log(d)
+                this.$emit('clearPage')
+                const value = ''
+                const delta = this.quill.clipboard.convert(value)
+                this.quill.setContents(delta, 'silent')
+                this.getQuill()
             },
             ...mapActions({
                 fetchData: "banners/fetchBanners",
             }),
-            ...mapMutations({
-                setWysiwygText: 'banners/setWysiwygText',
-                setWysiwygHtml: 'banners/setWysiwygHtml'
 
-            })
         },
         computed: {
             ...mapState({
@@ -81,5 +85,23 @@
     .ql-toolbar, .ql-snow {
         width: 90%;
 
+    }
+
+    .bl-editor__clear-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 140px;
+        padding: 12px 24px;
+        background: none;
+        border: 1px solid var(--color-black);
+        border-radius: 25px;
+        font-size: 20px;
+        font-family: "Inter";
+        font-weight: 500;
+        color: var(--color-black);
+    }
+
+    .bl-editor__clear-btn:hover {
+        cursor: pointer;
     }
 </style>

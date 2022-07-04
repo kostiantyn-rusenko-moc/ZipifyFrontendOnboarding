@@ -7,13 +7,28 @@
             </svg>
         </button>
         <div class="bl-popup__message">
-            Your Banner {{}} will be deleted.
+            Your Banner {{this.$store.state.banners.bannerTitle}} will be deleted.
         </div>
-        <button type="button" class="bl-popup__del-btn">
-            delete
+        <button 
+            type="button" 
+            class="bl-popup__del-btn"
+            @click="deleteBanner"
+            >
+                delete
         </button>
     </div>
 </template>
+
+<script>
+    export default {
+        methods: {
+            deleteBanner() {
+                this.$store.dispatch('banners/deleteBanner')
+                this.$emit('closePopup')
+            }
+        }
+    }
+</script>
 
 <style>
     .bl-popup {

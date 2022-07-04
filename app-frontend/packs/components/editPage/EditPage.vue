@@ -4,27 +4,46 @@
             <form class="bl-main__form" @submit.prevent="submit">
                 <div class="bl-form__field bl-form__margin">
                     <label class="bl-form__label">Banner Title</label>
-                    <input class="bl-form__input" type="text" v-model="form.message"/>
+                    <input class="bl-form__input" type="text" v-model="form.title" @input="inputTitle(form.title)"/>
                 </div>
-                <div class="bl-form__field bl-form__margin">
-                    <label class="bl-form__label">Product id</label>
-                    <input class="bl-form__input" type="number" v-model="form.product_id"/>
+                <div 
+                    class="bl-form__field 
+                    bl-form__margin">
+                        <label class="bl-form__label">Product id</label>
+                        <input 
+                            class="bl-form__input" 
+                            type="number" 
+                            v-model="form.productId" 
+                            @input="inputProductId(form.productId)"
+                        />
                 </div>
-                <div class="bl-form__field bl-form__margin">
-                    <label class="bl-form__label">Background color</label>
-                    <input class="bl-form__input bl-form__input-color" type="color" v-model="form.color"/>
+                <div
+                    class="bl-form__field 
+                    bl-form__margin">
+                        <label class="bl-form__label">Background color</label>
+                        <input 
+                            class="bl-form__input bl-form__input-color" 
+                            type="color" v-model="form.color" 
+                            @input="inputColor(form.color)"
+                        />
                 </div>
                 <div class="bl-form__wysiwyg bl-form__margin">
-                    <EditForm v-model="form.wysiwyg"/>
+                    <EditForm v-model="form.wysiwyg"
+                    @clearPage="clearFields"/>
                 </div>
-                <button class="bl-from__submit" type="submit">Submit</button>
+                <button
+                    class="bl-from__submit"
+                    type="submit"
+                    >
+                        Submit
+                </button>
             </form>
         </div>
         <div class="bl-main__right">
             <PreviewForm :form="form"/>
         </div>
     </div>
-    <div class="bl-back">
+    <div class="bl-edit__back">
         <router-link to="/">
             <button class="bl-back__btn">
                 <svg width="70" height="62" viewBox="0 0 98 82" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,6 +76,7 @@
 </template>
 
 <script>
+    import {mapActions, mapMutations, mapState} from 'vuex'
     import EditForm from "./editForm/EditForm.vue";
     import PreviewForm from "./previewForm/PreviewForm.vue";
 
@@ -65,9 +85,9 @@
         data() {
             return {
                 form: {
-                    product_id: Number,
-                    message: '',
-                    color: '#FFFFFF',
+                    productId: Number,
+                    title: '',
+                    color: String,
                     wysiwyg: String
                 },
             }
@@ -77,11 +97,46 @@
             PreviewForm
         },
           methods: {
-            async submit() {
-                console.log(this.form);
-                this.$emit('submit', this.form)
-            }
+            submit() {
+                this.createBanner()
+                
+            },
+            inputTitle(value) {
+                this.$store.commit('banners/setBannerTitle', value)
+            },
+            inputColor(value) {
+                this.$store.commit('banners/setBannerColor', value)
+            },
+            inputProductId(value) {
+                this.$store.commit('banners/setBannerProductId', value)
+            },
+            clearFields() {
+                console.log("32322")
+                this.form.title = ''
+                this.form.productId = ''
+                this.form.color = '#FFFFFF'
+                this.form.wysiwyg = ''
+                this.$store.commit('banners/setWysiwygText', '')
+                this.$store.commit('banners/setWysiwygHtml', '')
+                this.$store.commit('banners/setBannerTitle', '');
+                this.$store.commit('banners/setBannerColor', '#FFFFFF')
+                this.$store.commit('banners/setBannerProductId', '')
+            },
+            setFields() {
+                this.form.title = this.$store.state.banners.bannerTitle
+                this.form.color = this.$store.state.banners.bannerColor
+                this.form.productId = this.$store.state.banners.bannerProductId
+                console.log( this.$store.state.banners);
+
+            },
+            ...mapActions({
+                createBanner: 'banners/createBanner'
+            })
         },
+        mounted() {
+            this.setFields()
+            // this.clearFields()
+        }
     }
 </script>
 

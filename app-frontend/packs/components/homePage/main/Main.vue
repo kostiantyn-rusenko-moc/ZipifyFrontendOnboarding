@@ -56,7 +56,7 @@
         </div>
     </div>
     <div class="bl-main__cards" v-else>
-        <div class="bl-cards__card" v-for="card in cards">
+        <div class="bl-cards__card" v-for="card in this.$store.state.banners.bannersData">
             <Card :card="card"/>
         </div>
     </div>
@@ -70,16 +70,15 @@
         data() {
             return {
                 responseData: false,
-                cards: [
-                    {title: 'one', content: 'SALE'},
-                    {title: 'two', content: 'FRIDAY'},
-                    {title: 'three', content: 'Limited'},
-                    {title: 'four', content: 'Nice'},
-                ]
             }
         },
         components: {
             Card
+        },
+        mounted() {
+            this.$store.dispatch('banners/fetchBanners')
+            this.dat = this.$store.state.banners.bannersData
+            console.log(this.$store.state.banners.bannersData)
         }
     }
 </script>

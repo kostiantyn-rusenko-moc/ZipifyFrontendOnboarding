@@ -3,7 +3,7 @@
         <li class="bl-menu__list">
             <div class="bl-list__item">
                 <router-link class="bl-item__edit-link" to="/edit">
-                    <button type="button" class="bl-item__btn">Edit</button>
+                    <button type="button" class="bl-item__btn" @click="getBanner">Edit</button>
                 </router-link>
             </div>
             <div class="bl-list__item">
@@ -15,7 +15,7 @@
         <ConfirmPopup  @closePopup="showPopup"/>
     </div>
     <div v-if="isShowPopup" @click="showPopup" class="bl-global"></div>
-    <div v-if="isShowControls" @click="showPopup" class="bl-global"></div>
+    <!-- <div v-if="isShowControls" @click="showPopup" class="bl-global"></div> -->
 </template>
 
 <script>
@@ -30,8 +30,10 @@
         methods: {
             showPopup(event) {
                 this.isShowPopup = !this.isShowPopup
-                this.$emit('clicked', 'someValue')
             },
+            getBanner() {
+                this.$store.dispatch('banners/getBanner')
+            }
         },
         components: {
             ConfirmPopup,
@@ -48,6 +50,7 @@
         min-height: 100%;
         top: 0;
         left: 0;
+        z-index: 50;
     }
 
     .bl-menu__list {
@@ -61,6 +64,7 @@
         background-color: var(--color-white);
         border: 1px solid var(--color-grey);
         box-shadow: 0px 3px 4px var(--color-dark-grey);
+        z-index: 500;
     }
 
     .bl-list__item {
