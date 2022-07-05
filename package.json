@@ -2,10 +2,7 @@
   "name": "ZipifyFrontendOnboarding",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development webpack serve --progress",
-    "precommit": "eslint",
-    "prepare": "husky install",
-    "eslint": "eslint --fix --fix-type layout --fix-type suggestion --config .eslintrc.js"
+    "start": "NODE_ENV=development webpack serve --progress"
   },
   "dependencies": {
     "@babel/core": "^7.18.2",
@@ -36,7 +33,7 @@
   "devDependencies": {
     "eslint": "^8.19.0",
     "eslint-plugin-vue": "^9.1.1",
-    "husky": "^8.0.1",
+    "husky": "^4.3.8",
     "lint-staged": "^13.0.3",
     "prettier": "1.12.0",
     "stylelint": "^14.9.1",
@@ -44,11 +41,9 @@
     "stylelint-config-standard": "^26.0.0"
   },
   "lint-staged": {
-    "*.{vue,scss}": [
-      "stylelint --config .stylelintrc"
-    ],
-    "app/frontend/**/*.{vue,js}": [
-      "eslint --fix --fix-type layout --fix-type suggestion --config .eslintrc.js"
+    "*.{vue, js, json}": [
+      "eslint . --fix",
+      "git add"
     ]
   },
   "husky": {

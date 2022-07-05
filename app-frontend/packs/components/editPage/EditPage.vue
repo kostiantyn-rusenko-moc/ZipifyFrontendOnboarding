@@ -118,8 +118,6 @@
                 this.$store.commit('banners/setBannerProductId', value)
             },
             clearFields() {
-                console.log("32322")
-                console.log("32322")
                 this.form.title = ''
                 this.form.productId = ''
                 this.form.color = '#FFFFFF'
