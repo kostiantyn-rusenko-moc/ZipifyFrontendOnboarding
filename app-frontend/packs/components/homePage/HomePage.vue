@@ -1,20 +1,20 @@
 <template>
     <div class="bl-home">
-        <Header/>
+        <HeaderApp/>
         <div class="bl-home__main">
-            <Main/>
+            <MainApp/>
         </div>
     </div>
 </template>
 
 <script>
-    import Header from '../homePage/header/Header.vue'
-    import Main from '../homePage/main/Main.vue'
+    import HeaderApp from '../homePage/header/HeaderApp.vue'
+    import MainApp from '../homePage/main/MainApp.vue'
 
     export default {
         components: {
-            Header,
-            Main
+            HeaderApp,
+            MainApp
         }
     }
 </script>

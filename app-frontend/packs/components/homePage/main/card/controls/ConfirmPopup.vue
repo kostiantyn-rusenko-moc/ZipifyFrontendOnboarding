@@ -1,10 +1,13 @@
 <template>
     <div class="bl-popup">
-        <button @click="$emit('closePopup')" type="button" class="bl-popup__close-btn">
-            <svg width="53" height="50" viewBox="0 0 53 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M39.75 12.5L13.25 37.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M13.25 12.5L39.75 37.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+        <button
+            @click="$emit('closePopup')"
+            type="button"
+            class="bl-popup__close-btn">
+                <svg width="53" height="50" viewBox="0 0 53 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M39.75 12.5L13.25 37.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M13.25 12.5L39.75 37.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
         </button>
         <div class="bl-popup__message">
             Your Banner {{this.$store.state.banners.bannerTitle}} will be deleted.

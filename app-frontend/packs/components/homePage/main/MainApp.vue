@@ -56,8 +56,11 @@
         </div>
     </div>
     <div class="bl-main__cards" v-else>
-        <div class="bl-cards__card" v-for="card in this.$store.state.banners.bannersData">
-            <Card :card="card"/>
+        <div 
+            class="bl-cards__card"
+            v-for="card in this.$store.state.banners.bannersData"
+            :key="card.id">
+                <Card :card="card"/>
         </div>
     </div>
 </template>
@@ -66,7 +69,7 @@
     import Card from './card/Card.vue'
     
     export default {
-        name: 'Main',
+        name: 'MainApp',
         data() {
             return {
                 responseData: false,

@@ -2,20 +2,37 @@
     <div class="bl-control__menu">
         <li class="bl-menu__list">
             <div class="bl-list__item">
-                <router-link class="bl-item__edit-link" to="/edit">
-                    <button type="button" class="bl-item__btn" @click="getBanner">Edit</button>
+                <router-link
+                    class="bl-item__edit-link"
+                    to="/edit">
+                        <button
+                            type="button"
+                            class="bl-item__btn"
+                            @click="getBanner">
+                                Edit
+                        </button>
                 </router-link>
             </div>
             <div class="bl-list__item">
-                <button @click="showPopup()" type="button" class="bl-item__btn">Delete</button>
+                <button
+                    @click="showPopup()"
+                    type="button"
+                    class="bl-item__btn">
+                        Delete
+                </button>
             </div>
         </li>
     </div>
-    <div v-if="isShowPopup" class="bl-confirm-popup">
-        <ConfirmPopup  @closePopup="showPopup"/>
+    <div
+        v-if="isShowPopup"
+        class="bl-confirm-popup">
+            <ConfirmPopup  @closePopup="showPopup"/>
     </div>
-    <div v-if="isShowPopup" @click="showPopup" class="bl-global"></div>
-    <!-- <div v-if="isShowControls" @click="showPopup" class="bl-global"></div> -->
+    <div
+        v-if="isShowPopup"
+        @click="showPopup"
+        class="bl-global">
+    </div>
 </template>
 
 <script>
@@ -28,7 +45,7 @@
            }
         },
         methods: {
-            showPopup(event) {
+            showPopup() {
                 this.isShowPopup = !this.isShowPopup
             },
             getBanner() {

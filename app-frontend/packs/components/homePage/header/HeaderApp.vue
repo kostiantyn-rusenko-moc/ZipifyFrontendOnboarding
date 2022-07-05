@@ -21,6 +21,7 @@
     import CreateButton from './createButton/CreateButton.vue'
 
     export default {
+        name: 'HeaderApp',
         components: {
             CreateButton
         }

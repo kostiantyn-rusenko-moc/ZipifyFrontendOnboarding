@@ -4,15 +4,22 @@
         <div 
             class="bl-card__example" 
             :style="{ backgroundColor: card.style.backgoundColor }" 
-            v-html=card.content>
+            v-html="card.content">
         </div>
-        <ControlButton @click="onClick" class="bl-card__settings"/>
-        <div v-if="isShow" class="bl-card__controls">
-            <BannersControl/>
+        <ControlButton
+            @click="onClick"
+            class="bl-card__settings"/>
+        <div
+            v-if="isShow"
+            class="bl-card__controls">
+                <BannersControl/>
         </div>
     </div>
-            <div v-if="isShowBack" class="bl-back" @click="hideBack"></div>
-
+    <div
+        v-if="isShowBack"
+        class="bl-back"
+        @click="hideBack">
+    </div>
 </template>
 
 <script>
