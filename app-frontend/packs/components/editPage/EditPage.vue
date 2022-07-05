@@ -44,6 +44,7 @@
                         >
                             Submit
                     </button>
+                    <button type="button" @click="res()">RS</button>
             </form>
         </div>
         <div class="bl-main__right">
@@ -84,6 +85,8 @@
 
 <script>
     import {mapActions, mapState} from 'vuex'
+    import app from '../../shared/shopifyApp'
+    import { ResourcePicker } from '@shopify/app-bridge/actions'
     import EditForm from "./editForm/EditForm.vue";
     import PreviewForm from "./previewForm/PreviewForm.vue";
 
@@ -97,6 +100,7 @@
                     color: String,
                     wysiwyg: String
                 },
+                openingProductPicker: false
             }
         },
         components: {
@@ -105,8 +109,30 @@
         },
         methods: {
             submit() {
-                this.createBanner()
+                if(this.$store.state.banners.bannerId) {
+                    this.updateBanner()
+                } else {
+                    this.createBanner()
+                }
                 
+            },
+            res() {
+                console.log("RES");
+                this.openingProductPicker = true
+                const productPicker = ResourcePicker.create(app, {
+                    resourceType: ResourcePicker.ResourceType.Product,
+                    options: {
+                        selectMultiple: false,
+                        showHidden: false,
+                        showVariants: false,
+                    }
+                })
+                console.log(productPicker);
+                productPicker.dispatch(ResourcePicker.Action.OPEN)
+                productPicker.subscribe(ResourcePicker.Action.SELECT, ({selection}) => {
+                    this.openingProductPicker = false;
+                    console.log(selection)
+                })
             },
             inputTitle(value) {
                 this.$store.commit('banners/setBannerTitle', value)
@@ -128,33 +154,27 @@
                 this.$store.commit('banners/setBannerColor', '#FFFFFF')
                 this.$store.commit('banners/setBannerProductId', '')
             },
-            // setFields() {
-            //     this.form.title = this.$store.state.banners.bannerTitle
-            //     this.form.color = this.$store.state.banners.bannerColor
-            //     this.form.productId = this.$store.state.banners.bannerProductId
-            //     console.log( this.$store.state.banners);
-
-            // },
+            setFields() {
+                this.form.title = this.$store.state.banners.bannerTitle
+                this.form.color = this.$store.state.banners.bannerColor
+                this.form.productId = this.$store.state.banners.bannerProductId
+            },
             ...mapActions({
-                createBanner: 'banners/createBanner'
+                createBanner: 'banners/createBanner',
+                updateBanner: 'banners/updateBanner'
             })
         },
         computed: {
             ...mapState({
                 bannerTitle: state => state.banners.bannerTitle,
                 bannerColor: state => state.banners.bannerColor,
-                bannerProductId: state => state.banners.bannerProductId
+                bannerProductId: state => state.banners.bannerProductId,
+                bannertId: state => state.banners.bannerId
             }),
         },
-        watch: {
-            setFields() {
-                this.form.title = this.bannerTitle,
-                this.form.color = this.bannerColor,
-                this.form.productId = this.bannerProductId
-            }
-        },
-        beforeCreate() {
-            this.$store.dispatch('banners/getBanner')
+        mounted() {
+            this.setFields()
+            console.log(app)
         }
     }
 </script>

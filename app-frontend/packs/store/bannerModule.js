@@ -1,4 +1,5 @@
 import axios from "axios"
+import router from "../router" 
 export const bannerModule = {
     state() {
         return {
@@ -8,7 +9,7 @@ export const bannerModule = {
             bannerTitle: '',
             bannerColor: '#FFFFF',
             bannerProductId: Number,
-            bannerId: Number
+            bannerId: Number,
         }
     },
     mutations: {
@@ -36,15 +37,13 @@ export const bannerModule = {
 
     },
     actions: {
-        async fetchBanners({commit, state}) {
+        async fetchBanners({commit}) {
             await axios.get('/api/v1/banners')
                 .then((res) => {
                     commit('setData', res.data.data)
-                    console.log(res.data, state.bannersData);
                 })
         },
         async createBanner({state}) {
-            console.log(state.bannerTitle)
             await axios.post('/api/v1/banners', {
                 banner: {
                     title: state.bannerTitle,
@@ -60,20 +59,33 @@ export const bannerModule = {
         },
         async deleteBanner({state, dispatch}) {
             await axios.delete(`/api/v1/banners/${state.bannerId}`)
-                .then((res) => {
-                    dispatch('fetchBanners')
-                    console.log(res.data)
-                })
+            .then(() => {
+                dispatch('fetchBanners')
+            })
         },
         async getBanner({state, commit}) {
             await axios.get(`/api/v1/banners/${state.bannerId}`)
-                .then((res) => {
-                    console.log(res.data.data)
-                    commit('setBannerTitle', res.data.data.title)
-                    commit('setBannerColor', res.data.data.style.backgoundColor)
-                    commit('setBannerProductId', res.data.data.product_id)
-                    commit('setWysiwygHtml', res.data.data.content)
-                }).then(()=> console.log(state, 'state'))
+            .then((res) => {
+                commit('setBannerTitle', res.data.data.title)
+                commit('setBannerColor', res.data.data.style.backgoundColor)
+                commit('setBannerProductId', res.data.data.product_id)
+                commit('setWysiwygHtml', res.data.data.content)
+            }).then(()=> router.push('edit'))
+            
+        },
+        async updateBanner({state}) {
+            await axios.put(`/api/v1/banners/${state.bannerId}`, {
+                banner: {
+                    title: state.bannerTitle,
+                    style: {
+                        backgoundColor: state.bannerColor
+                    },
+                    content: state.wysiwygHtml,
+                    product_id: state.bannerProductId,
+                }
+            }).then((res) => {
+                console.log(res.data)
+            })
         }
     },
     namespaced: true

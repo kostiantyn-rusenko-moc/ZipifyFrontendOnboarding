@@ -2,16 +2,14 @@
     <div class="bl-control__menu">
         <li class="bl-menu__list">
             <div class="bl-list__item">
-                <router-link
-                    class="bl-item__edit-link"
-                    to="/edit">
+
                         <button
                             type="button"
                             class="bl-item__btn"
                             @click="getBanner">
                                 Edit
                         </button>
-                </router-link>
+           
             </div>
             <div class="bl-list__item">
                 <button
