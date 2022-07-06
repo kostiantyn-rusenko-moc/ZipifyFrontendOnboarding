@@ -10,7 +10,7 @@
     <button
         class="bl-editor__clear-btn"
         type="button"
-        @click="drawHtml"
+        @click="clearHtml"
         >
             Clear
     </button>
@@ -27,8 +27,6 @@
                     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 
                     [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-
-                    ['clean']                                         // remove formatting button
                 ]
             }
         },
@@ -41,7 +39,6 @@
                     modules: {
                         toolbar: this.toolbarOptions
                     },
-                    placeholder: 'Input your banner content here',
                     theme: 'snow'
                 });
                 this.fetchData()
@@ -50,9 +47,15 @@
                 this.$store.commit('banners/setWysiwygText', this.quill.getText())
                 if (this.quill.getText().length < 25) this.$store.commit('banners/setWysiwygHtml', this.quill.root.innerHTML)
             },
-            drawHtml() {
+            clearHtml() {
                 this.$emit('clearPage')
                 const value = ''
+                const delta = this.quill.clipboard.convert(value)
+                this.quill.setContents(delta, 'silent')
+                this.getQuill()
+            },
+            drawHtml() {
+                const value = this.wysiwygHtml
                 const delta = this.quill.clipboard.convert(value)
                 this.quill.setContents(delta, 'silent')
                 this.getQuill()
@@ -65,11 +68,17 @@
         computed: {
             ...mapState({
                 wysiwygText: state => state.banners.wysiwygText,
-                wysiwygHtml: state => state.banners.wysiwygHtml
+                wysiwygHtml: state => state.banners.wysiwygHtml,
+                bannerId: state => state.banners.bannerId
             })
         },
         mounted() {
             this.editorUp()
+            if(this.bannerId >= 0) {
+                this.drawHtml()
+            } else {
+                this.clearHtml()
+            }
         },
     }
 </script>

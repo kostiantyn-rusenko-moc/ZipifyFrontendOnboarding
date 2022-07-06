@@ -10,6 +10,7 @@ export const bannerModule = {
             bannerColor: '#FFFFF',
             bannerProductId: Number,
             bannerId: Number,
+            isLoader: false
         }
     },
     mutations: {
@@ -37,13 +38,17 @@ export const bannerModule = {
 
     },
     actions: {
-        async fetchBanners({commit}) {
+        async fetchBanners({commit, state}) {
+            state.isLoader = true
             await axios.get('/api/v1/banners')
                 .then((res) => {
                     commit('setData', res.data.data)
+                }).finally(() => {
+                    state.isLoader = false
                 })
         },
         async createBanner({state}) {
+            state.isLoader = true
             await axios.post('/api/v1/banners', {
                 banner: {
                     title: state.bannerTitle,
@@ -53,11 +58,12 @@ export const bannerModule = {
                     content: state.wysiwygHtml,
                     product_id: state.bannerProductId,
                 }
-            }).then((res) => {
-                console.log(res.data)
+            }).finally(() => {
+                state.isLoader = false
             })
         },
         async deleteBanner({state, dispatch}) {
+            state.isLoader = true
             await axios.delete(`/api/v1/banners/${state.bannerId}`)
             .then(() => {
                 dispatch('fetchBanners')
@@ -74,6 +80,7 @@ export const bannerModule = {
             
         },
         async updateBanner({state}) {
+            state.isLoader = true
             await axios.put(`/api/v1/banners/${state.bannerId}`, {
                 banner: {
                     title: state.bannerTitle,
@@ -83,8 +90,8 @@ export const bannerModule = {
                     content: state.wysiwygHtml,
                     product_id: state.bannerProductId,
                 }
-            }).then((res) => {
-                console.log(res.data)
+            }).finally(() => {
+                state.isLoader = false
             })
         }
     },

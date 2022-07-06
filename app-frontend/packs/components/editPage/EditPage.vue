@@ -15,12 +15,12 @@
                         class="bl-form__field 
                         bl-form__margin">
                             <label class="bl-form__label">Product id</label>
-                            <input 
-                                class="bl-form__input" 
-                                type="number" 
-                                v-model="form.productId" 
-                                @input="inputProductId(form.productId)"
-                            />
+                            <button 
+                                class="bl-form__button" 
+                                type="button" 
+                                @click="res()">
+                                    Click to open
+                            </button>
                     </div>
                     <div
                         class="bl-form__field 
@@ -81,14 +81,18 @@
             </button>
         </router-link>
     </div>
+    <div v-if="this.$store.state.banners.isLoader">
+        <LoaderVue/>
+    </div>
 </template>
 
 <script>
     import {mapActions, mapState} from 'vuex'
-    import app from '../../shared/shopifyApp'
+    import { app } from '../../shared/shopifyApp'
     import { ResourcePicker } from '@shopify/app-bridge/actions'
-    import EditForm from "./editForm/EditForm.vue";
-    import PreviewForm from "./previewForm/PreviewForm.vue";
+    import EditForm from './editForm/EditForm.vue';
+    import PreviewForm from './previewForm/PreviewForm.vue';
+    import LoaderVue from '../sharedComponents/LoaderVue.vue'
 
     export default {
         name: 'EditPage',
@@ -100,16 +104,17 @@
                     color: String,
                     wysiwyg: String
                 },
-                openingProductPicker: false
+                openingProductPicker: false,
             }
         },
         components: {
             EditForm,
-            PreviewForm
+            PreviewForm,
+            LoaderVue
         },
         methods: {
             submit() {
-                if(this.$store.state.banners.bannerId) {
+                if(this.$store.state.banners.bannerId >= 0) {
                     this.updateBanner()
                 } else {
                     this.createBanner()
@@ -117,21 +122,18 @@
                 
             },
             res() {
-                console.log("RES");
-                this.openingProductPicker = true
                 const productPicker = ResourcePicker.create(app, {
-                    resourceType: ResourcePicker.ResourceType.Product,
-                    options: {
-                        selectMultiple: false,
-                        showHidden: false,
-                        showVariants: false,
-                    }
+                resourceType: ResourcePicker.ResourceType.Product,
+                options: {
+                    selectMultiple: false,
+                    showHidden: false,
+                    showVariants: false,
+                    initialQuery:"",
+                }
                 })
-                console.log(productPicker);
                 productPicker.dispatch(ResourcePicker.Action.OPEN)
                 productPicker.subscribe(ResourcePicker.Action.SELECT, ({selection}) => {
-                    this.openingProductPicker = false;
-                    console.log(selection)
+                    this.inputProductId(Number(selection[0].id.slice(22)))
                 })
             },
             inputTitle(value) {
@@ -173,8 +175,13 @@
             }),
         },
         mounted() {
-            this.setFields()
+            if (this.bannertId >= 0) {
+                this.setFields()
+            } else {
+                this.clearFields()
+            }
             console.log(app)
+
         }
     }
 </script>
@@ -229,6 +236,18 @@
         align-self: center;
         padding: 8px 0;
         font-size: 18px;
+        border: 1px solid var(--color-black);
+        border-radius: 5px;
+    }
+
+    .bl-form__button {
+        width: 90%;
+        align-self: center;
+        padding: 8px 0;
+        font-size: 18px;
+        background-color: var(--color-white);
+        border: 1px solid var(--color-black);
+        border-radius: 5px;
     }
 
     .bl-form__input-color {
@@ -277,12 +296,13 @@
         cursor: pointer;
     }
 
+    .bl-form__button:hover {
+        cursor: pointer;
+    }
+
     .bl-form__wysiwyg {
         height: 30%;
         width: 100%;
-        /* display: flex;
-        flex-direction: column;
-        align-items: center; */
     }
 
     .bl-form__margin {

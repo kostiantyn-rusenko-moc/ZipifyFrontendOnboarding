@@ -3,13 +3,33 @@
         class="bl-btn__link bl-link">
             <button 
                 class="bl-create-btn bl-btn" 
-                type="button">
+                type="button"
+                @click="createNew">
                     Create new banner
             </button>
     </router-link>
 </template>
 
 <script>
+    export default {
+        methods: {
+            createNew() {
+                this.$store.state.banners.bannerId = -1
+                this.clearFields()
+            },
+            clearFields() {
+                this.form.title = ''
+                this.form.productId = ''
+                this.form.color = '#FFFFFF'
+                this.form.wysiwyg = ''
+                this.$store.commit('banners/setWysiwygText', '')
+                this.$store.commit('banners/setWysiwygHtml', '')
+                this.$store.commit('banners/setBannerTitle', '');
+                this.$store.commit('banners/setBannerColor', '#FFFFFF')
+                this.$store.commit('banners/setBannerProductId', '')
+            },
+        }
+    }
 </script>
 
 <style>
