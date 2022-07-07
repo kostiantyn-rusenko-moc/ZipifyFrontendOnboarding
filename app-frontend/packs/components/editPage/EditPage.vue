@@ -31,20 +31,18 @@
                             <input 
                                 class="bl-form__input bl-form__input-color" 
                                 type="color" v-model="form.color" 
-                                @input="inputColor(form.color)"
-                            />
+                                @input="inputColor(form.color)"/>
                     </div>
                     <div class="bl-form__wysiwyg bl-form__margin">
-                        <EditForm v-model="form.wysiwyg"
-                        @clearPage="clearFields"/>
+                        <EditForm
+                            v-model="form.wysiwyg"
+                            @clearPage="clearFields"/>
                     </div>
                     <button
                         class="bl-from__submit"
-                        type="submit"
-                        >
+                        type="submit">
                             Submit
                     </button>
-                    <button type="button" @click="res()">RS</button>
             </form>
         </div>
         <div class="bl-main__right">

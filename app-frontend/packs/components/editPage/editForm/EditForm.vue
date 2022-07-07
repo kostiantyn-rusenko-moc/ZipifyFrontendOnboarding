@@ -4,8 +4,7 @@
         @click="getQuill()">
             <div
                 class="bl-editor-container2"
-                id="editor-container">
-            </div>
+                id="editor-container"/>
     </div>
     <button
         class="bl-editor__clear-btn"
@@ -20,6 +19,7 @@
     import {mapActions, mapState} from 'vuex'
 
     export default {
+        name: "EditForm",
         data() {
             return {
                 quill: Object,
@@ -74,11 +74,7 @@
         },
         mounted() {
             this.editorUp()
-            if(this.bannerId >= 0) {
-                this.drawHtml()
-            } else {
-                this.clearHtml()
-            }
+            this.bannerId >= 0 ? this.drawHtml() :  this.clearHtml()
         },
     }
 </script>
@@ -93,7 +89,6 @@
 
     .ql-toolbar, .ql-snow {
         width: 90%;
-
     }
 
     .bl-editor__clear-btn {

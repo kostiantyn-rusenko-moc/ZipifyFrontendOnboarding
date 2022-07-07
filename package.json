@@ -2,6 +2,7 @@
   "name": "ZipifyFrontendOnboarding",
   "private": true,
   "scripts": {
+    "test:unit": "vue-cli-service test:unit",
     "start": "NODE_ENV=development webpack serve --progress"
   },
   "dependencies": {
@@ -9,6 +10,7 @@
     "@babel/preset-env": "^7.18.2",
     "@shopify/app-bridge": "^3.1.1",
     "@shopify/app-bridge-utils": "^3.1.1",
+    "@vue/cli-service": "^5.0.7",
     "@vue/compiler-sfc": "^3.2.37",
     "autoprefixer": "^10.4.7",
     "axios": "^0.27.2",
@@ -33,24 +35,32 @@
     "webpack-manifest-plugin": "^5.0.0"
   },
   "devDependencies": {
+    "@vue/cli-plugin-unit-jest": "~5.0.0",
+    "@vue/test-utils": "^2.0.2",
+    "@vue/vue3-jest": "^27.0.0-alpha.1",
+    "babel-jest": "^27.0.6",
     "eslint": "^8.19.0",
     "eslint-plugin-vue": "^9.1.1",
     "husky": "^4.3.8",
+    "jest": "^28.1.2",
     "lint-staged": "^13.0.3",
     "prettier": "1.12.0",
     "stylelint": "^14.9.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^26.0.0"
   },
-  "lint-staged": {
-    "*.{vue, js, json}": [
-      "eslint . --fix",
-      "git add"
-    ]
+  "jest": {
+    "preset": "@vue/cli-plugin-unit-jest/presets/no-babel"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{vue, js, json}": [
+      "eslint . --fix",
+      "git add"
+    ]
   }
 }

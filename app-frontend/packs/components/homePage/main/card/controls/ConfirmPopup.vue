@@ -15,8 +15,7 @@
         <button 
             type="button" 
             class="bl-popup__del-btn"
-            @click="deleteBanner"
-            >
+            @click="deleteBanner">
                 delete
         </button>
     </div>
@@ -24,6 +23,7 @@
 
 <script>
     export default {
+        name: 'ConfirmPopup',
         methods: {
             deleteBanner() {
                 this.$store.dispatch('banners/deleteBanner')

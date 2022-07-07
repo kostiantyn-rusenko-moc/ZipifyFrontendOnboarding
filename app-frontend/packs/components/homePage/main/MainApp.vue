@@ -63,7 +63,7 @@
             Ready to get started create banners with no code content? Welcome to our app!
         </div>
     </div>
-    <div v-if="this.$store.state.banners.isLoader">
+    <div class="bl-main__loader" v-if="this.$store.state.banners.isLoader">
         <LoaderVue/>
     </div>
 </template>
@@ -73,7 +73,7 @@
     import LoaderVue from '../../sharedComponents/LoaderVue.vue'
     
     export default {
-        name: 'MainApp',
+        name: "MainApp",
         data() {
             return {
                 responseData: Boolean,
@@ -85,16 +85,12 @@
         },
         methods: {
             isTrue() {
-                if(this.$store.state.banners.bannersData) {
-                    this.responseData = true
-                } else {
-                    this.responseData = false
-                }
+                return this.responseData = !!this.$store.state.banners.bannersData.length
             }
         },
-        mounted() {
-            this.$store.dispatch('banners/fetchBanners')
-            this.isTrue()
+        async mounted() {
+            await this.$store.dispatch('banners/fetchBanners')
+            await this.isTrue()
         }
     }
 </script>
