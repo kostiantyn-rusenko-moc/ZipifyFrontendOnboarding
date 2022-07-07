@@ -38,18 +38,18 @@ export const bannerModule = {
 
     },
     actions: {
-        async fetchBanners({commit, state}) {
+        fetchBanners({commit, state}) {
             state.isLoader = true
-            await axios.get('/api/v1/banners')
+            axios.get('/api/v1/banners')
                 .then((res) => {
                     commit('setData', res.data.data)
                 }).finally(() => {
                     state.isLoader = false
                 })
         },
-        async createBanner({state}) {
+        createBanner({state}) {
             state.isLoader = true
-            await axios.post('/api/v1/banners', {
+            axios.post('/api/v1/banners', {
                 banner: {
                     title: state.bannerTitle,
                     style: {
@@ -62,15 +62,15 @@ export const bannerModule = {
                 state.isLoader = false
             })
         },
-        async deleteBanner({state, dispatch}) {
+        deleteBanner({state, dispatch}) {
             state.isLoader = true
-            await axios.delete(`/api/v1/banners/${state.bannerId}`)
+            axios.delete(`/api/v1/banners/${state.bannerId}`)
             .then(() => {
                 dispatch('fetchBanners')
             })
         },
-        async getBanner({state, commit}) {
-            await axios.get(`/api/v1/banners/${state.bannerId}`)
+        getBanner({state, commit}) {
+            axios.get(`/api/v1/banners/${state.bannerId}`)
             .then((res) => {
                 commit('setBannerTitle', res.data.data.title)
                 commit('setBannerColor', res.data.data.style.backgoundColor)
@@ -79,9 +79,9 @@ export const bannerModule = {
             }).then(()=> router.push('edit'))
             
         },
-        async updateBanner({state}) {
+        updateBanner({state}) {
             state.isLoader = true
-            await axios.put(`/api/v1/banners/${state.bannerId}`, {
+            axios.put(`/api/v1/banners/${state.bannerId}`, {
                 banner: {
                     title: state.bannerTitle,
                     style: {

@@ -1,7 +1,7 @@
 <template>
     <div class="bl-editor-container"
         @keyup="getQuill"
-        @click="getQuill()">
+        @click="getQuill">
             <div
                 class="bl-editor-container2"
                 id="editor-container"/>
@@ -9,8 +9,7 @@
     <button
         class="bl-editor__clear-btn"
         type="button"
-        @click="clearHtml"
-        >
+        @click="clearHtml">
             Clear
     </button>
 </template>
