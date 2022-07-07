@@ -47,14 +47,12 @@
                this.isShowBack = !this.isShowBack
                this.$store.commit('banners/setBannerId',this.card.id)
                this.$store.commit('banners/setBannerTitle', this.card.title)
-               console.log(this.$store.state);
             },
             hideBack() {
                 this.isShowBack = false
                 this.isShow = false
             }
         }
-        
     }
 </script>
 

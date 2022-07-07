@@ -178,8 +178,6 @@
             } else {
                 this.clearFields()
             }
-            console.log(app)
-
         }
     }
 </script>
