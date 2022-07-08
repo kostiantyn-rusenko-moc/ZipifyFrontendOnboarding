@@ -97,11 +97,11 @@ export const bannerModule = {
             })
         },
         clearInputFields({commit}) {
-            commit('banners/setWysiwygText', '')
-            commit('banners/setWysiwygHtml', '')
-            commit('banners/setBannerTitle', '');
-            commit('banners/setBannerColor', '#FFFFFF')
-            commit('banners/setBannerProductId', '')
+            commit('setWysiwygText', '')
+            commit('setWysiwygHtml', '')
+            commit('setBannerTitle', '');
+            commit('setBannerColor', '#FFFFFF')
+            commit('setBannerProductId', '')
         }
     },
     namespaced: true

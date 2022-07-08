@@ -1,7 +1,7 @@
 <template>
     <div class="bl-main__preview">
         <div
-            :style="{'background-color': bannerColor}"
+            :style="{'background-color': this.bannerColor}"
             class="bl-preview__banner"  v-html="wysiwygHtml">
         </div>
         <div class="bl-main__skeleton">
@@ -19,7 +19,7 @@
                 wysiwygHtml: state => state.banners.wysiwygHtml,
                 bannerColor: state => state.banners.bannerColor
             })
-        },
+        }
     }
 </script>
 
