@@ -1,14 +1,11 @@
 <template>
-  <p>Zipify Banners ({{ counter }})</p>
-
-  <button type="button" @click="increment">
-    Click Me!
-  </button>
+   <div class="bl-main">
+        <router-view/>
+   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-
-const counter = ref(1);
-const increment = () => counter.value++;
-</script>
+<style>
+    .bl-main {
+        height: 100%;
+    }
+</style>

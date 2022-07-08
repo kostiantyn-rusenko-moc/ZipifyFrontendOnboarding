@@ -1,3 +1,23 @@
-.app {
-  font-size: 20px;
+@import 'constColors.css';
+
+body,
+html {
+  margin: 0;
+  height: 100%;
+  background-color: var(--color-white);
+  font-family: "Inter", sans-serif;
+}
+
+.bl-app {
+  height: 100%;
+}
+
+.bl-btn {
+  cursor: pointer;
+  border: none;
+}
+
+.bl-link {
+  text-decoration: none;
+  color: var(--color-black);
 }

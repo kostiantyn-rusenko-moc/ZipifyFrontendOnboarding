@@ -1,0 +1,343 @@
+<template>
+    <div class="bl-edit__main">
+        <div class="bl-main__left">
+            <form
+                class="bl-main__form"
+                @submit.prevent="submit">
+                    <div class="bl-form__field bl-form__margin">
+                        <label class="bl-form__label">Banner Title</label>
+                        <input
+                            class="bl-form__input"
+                            type="text" v-model="form.title"
+                            @input="inputTitle(form.title)"/>
+                    </div>
+                   
+                    <div 
+                        class="bl-form__field 
+                        bl-form__margin">
+                            <div class="bl-form__preview">
+                                Product: {{this.productTitlePreview}} 
+                                <img class="bl-preview__img" v-if="this.productImgPreview"
+                                    v-bind:src= productImgPreview
+                                    alt="this.productTitlePreview"/>
+                            </div>
+                            <button
+                                class="bl-form__button"
+                                type="button"
+                                @click="res()">
+                                    {{this.resPickerBtnName}}
+                            </button>
+                    </div>
+                    <div
+                        class="bl-form__field 
+                        bl-form__margin">
+                            <label class="bl-form__label">
+                                Background color
+                            </label>
+                            <input 
+                                class="bl-form__input bl-form__input-color" 
+                                type="color" v-model="form.color" 
+                                @input="inputColor(form.color)"/>
+                    </div>
+                    <div class="bl-form__wysiwyg bl-form__margin">
+                        <EditForm
+                            v-model="form.wysiwyg"
+                            @clearPage="clearFields"/>
+                    </div>
+                    <button
+                        class="bl-from__submit"
+                        type="submit">
+                            Submit
+                    </button>
+            </form>
+        </div>
+        <div class="bl-main__right">
+            <PreviewForm :form="form"/>
+        </div>
+    </div>
+    <div class="bl-edit__back">
+        <router-link to="/">
+            <button class="bl-back__btn">
+                <svg width="70" height="62" viewBox="0 0 98 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_12_78)">
+                    <path d="M97.9866 30.0562C97.9882 30.0457 97.9903 30.0355 97.9916 30.025C97.992 30.0211 97.9922 30.017 97.9926 30.0129C97.9945 29.996 97.9949 29.9793 97.9962 29.9622C97.9976 29.9393 97.9999 29.9163 97.9999 29.8933C97.9999 29.8601 97.9976 29.8373 97.9962 29.8142C97.9949 29.7973 97.9947 29.7806 97.9926 29.7635C97.9922 29.7594 97.992 29.7554 97.9916 29.7514C97.9903 29.7409 97.9882 29.7307 97.9866 29.7202C97.9849 29.7101 97.9826 29.7003 97.9807 29.6904C97.9795 29.683 97.978 29.6759 97.9766 29.6687C97.9745 29.659 97.9738 29.6494 97.9716 29.6396C97.9693 29.6307 97.9684 29.626 97.9674 29.6216C97.9622 29.6009 97.9549 29.5806 97.9486 29.5602C97.9453 29.5492 97.9422 29.538 97.9384 29.5271C97.9361 29.5204 97.9346 29.5136 97.9321 29.5072C97.9307 29.5035 97.9296 29.4997 97.9282 29.4958C97.9244 29.4857 97.9192 29.4759 97.915 29.466C97.9082 29.4491 97.9007 29.4323 97.8929 29.4156C97.8879 29.4049 97.884 29.3938 97.8788 29.3831C97.8675 29.3608 97.8544 29.3395 97.8417 29.3177C97.8316 29.3004 97.8227 29.2824 97.8118 29.2657C97.8054 29.2559 97.7979 29.2467 97.7912 29.2369C97.7824 29.2242 97.7747 29.2139 97.7672 29.2036C97.7391 29.1654 97.7088 29.1286 97.6765 29.0931C97.6698 29.0858 97.6638 29.0785 97.6571 29.0713C97.6208 29.0335 97.5827 28.997 97.5418 28.9628C97.5381 28.9597 97.5337 28.9567 97.5299 28.9536C97.5218 28.9469 97.5128 28.9408 97.5045 28.9342C97.4659 28.9039 97.4253 28.8752 97.3829 28.8482C97.3706 28.8403 97.3583 28.8327 97.3458 28.825C97.3079 28.8023 97.2685 28.781 97.228 28.761C97.2117 28.7529 97.1961 28.744 97.1796 28.7365C97.1711 28.7332 36.9072 1.26072 36.9072 1.26072C36.3538 1.00844 35.6734 1.05903 35.1816 1.38826C34.6897 1.718 34.4822 2.26234 34.6555 2.76935L40.7995 20.7504L30.2211 28.9274C30.2142 28.9326 30.2084 28.9387 30.2017 28.9442C30.1796 28.9619 30.1583 28.9804 30.1375 28.9993C30.1229 29.0125 30.1081 29.0255 30.0941 29.0392C30.0733 29.0597 30.0539 29.0808 30.0347 29.1022C30.0228 29.1155 30.0105 29.1282 29.9994 29.1418C29.9792 29.1663 29.9607 29.1915 29.9423 29.2172C29.9342 29.2287 29.9252 29.2397 29.9175 29.2514C29.8975 29.2814 29.8795 29.3125 29.8622 29.3439C29.8579 29.3519 29.8527 29.3596 29.8485 29.3678C29.8295 29.4044 29.8126 29.4419 29.7976 29.4803C29.7961 29.4838 29.7945 29.4871 29.793 29.4906C29.777 29.5325 29.7634 29.5752 29.7526 29.6186C29.7415 29.6628 29.733 29.7069 29.7275 29.7518C29.7219 29.7973 29.719 29.8427 29.719 29.8885C29.719 29.9344 29.7219 29.9798 29.7275 30.0245C29.7334 30.0703 29.7417 30.1145 29.7526 30.1579C29.7636 30.2019 29.7774 30.2448 29.7932 30.2867C29.7945 30.2902 29.7964 30.2937 29.7978 30.2972C29.8128 30.3354 29.8295 30.3731 29.8485 30.4095C29.8527 30.4177 29.8579 30.4256 29.8625 30.4336C29.8798 30.465 29.8977 30.4959 29.9177 30.5259C29.9254 30.5376 29.9344 30.5486 29.9425 30.5601C29.9609 30.5857 29.9794 30.611 29.9999 30.6355C30.0111 30.6489 30.0232 30.6616 30.0351 30.6749C30.0545 30.6963 30.0739 30.7176 30.0947 30.738C30.1087 30.7518 30.1235 30.7647 30.1381 30.778C30.159 30.7968 30.1802 30.8153 30.2023 30.8331C30.209 30.8385 30.2148 30.8445 30.2217 30.8499L40.8001 39.0269L34.6555 57.0076C34.4822 57.5146 34.6897 58.0589 35.1816 58.3887C35.4649 58.5787 35.8111 58.6758 36.1593 58.6758C36.4155 58.6758 36.6726 58.6233 36.9072 58.5164L97.1707 31.0437C97.1859 31.0369 97.1917 31.0336 97.1978 31.0308C97.2165 31.0221 97.2345 31.0123 97.2528 31.0029C97.2747 30.9917 97.297 30.9809 97.3181 30.9689C97.3281 30.9631 97.3375 30.9566 97.3475 30.9507C97.3596 30.9434 97.3713 30.9361 97.3829 30.9286C97.4115 30.9104 97.4392 30.8914 97.4661 30.8717C97.4849 30.8579 97.5041 30.8445 97.522 30.83C97.5272 30.826 97.5297 30.8234 97.5324 30.8211C97.5447 30.811 97.556 30.8003 97.5679 30.7899C97.5896 30.7708 97.611 30.7515 97.6315 30.7314C97.635 30.7279 97.639 30.7248 97.6423 30.7213C97.6467 30.7168 97.6504 30.7119 97.6548 30.7073C97.6611 30.7009 97.6669 30.6944 97.673 30.6878C97.6888 30.6707 97.704 30.6534 97.7188 30.6358C97.7291 30.6236 97.7389 30.611 97.7487 30.5985C97.7591 30.585 97.7699 30.5718 97.7797 30.558C97.7874 30.5466 97.791 30.5405 97.7949 30.5348C97.8045 30.5205 97.8141 30.5063 97.8231 30.4917C97.8358 30.4713 97.8477 30.4503 97.8592 30.4292C97.8681 30.4127 97.8773 30.3961 97.8854 30.3792C97.8948 30.3598 97.903 30.3399 97.9113 30.3202C97.9125 30.3172 97.9138 30.3146 97.915 30.3116C97.9192 30.3013 97.9246 30.2914 97.9284 30.2809C97.9307 30.2747 97.9324 30.2682 97.9346 30.2619C97.9367 30.2558 97.939 30.2495 97.9411 30.2434C97.9436 30.2359 97.9453 30.2281 97.9478 30.2204C97.9488 30.2173 97.9497 30.2139 97.9505 30.2108C97.9561 30.1923 97.9628 30.174 97.9676 30.1551C97.9686 30.1508 97.9693 30.1464 97.9703 30.1421C97.9741 30.1274 97.9747 30.1176 97.9766 30.108C97.978 30.1007 97.9795 30.0936 97.9807 30.0864C97.9826 30.0761 97.9849 30.0662 97.9866 30.0562ZM38.6887 5.05297L86.8325 27.0004L43.8073 20.033L38.6887 5.05297ZM35.2796 31.1971H42.5677C43.4313 31.1971 44.1315 30.6114 44.1315 29.8885C44.1315 29.1657 43.4313 28.58 42.5677 28.58H35.2796L43.0474 22.5755L80.1259 28.5799H48.9762C48.1126 28.5799 47.4124 29.1656 47.4124 29.8884C47.4124 30.6112 48.1126 31.1969 48.9762 31.1969H80.1257L43.0474 37.2014L35.2796 31.1971ZM43.8073 39.7439L86.8325 32.7764L38.6887 54.7238L43.8073 39.7439Z" fill="black"/>
+                    <path d="M4.56394 63.2958C4.24221 62.5122 3.97031 61.7039 3.75596 60.8933C3.56913 60.1876 2.73259 59.7425 1.89124 59.8985C1.04803 60.0548 0.515697 60.7532 0.702315 61.459C0.942102 62.3653 1.24632 63.2696 1.60621 64.1461C1.82911 64.6887 2.43567 65.0296 3.08497 65.0296C3.25345 65.0296 3.42505 65.0066 3.59332 64.9583C4.41006 64.7238 4.8446 63.9792 4.56394 63.2958Z" fill="black"/>
+                    <path d="M1.56406 57.2354C2.42396 57.2354 3.12331 56.6539 3.12769 55.9335C3.13269 55.0952 3.18794 54.251 3.29199 53.4242C3.38228 52.7054 2.75925 52.0614 1.90039 51.9858C1.0432 51.9091 0.271917 52.4316 0.181423 53.1502C0.0665337 54.0634 0.00564843 54.9954 1.86309e-05 55.9203C-0.00415159 56.6429 0.692275 57.2318 1.56406 57.2354Z" fill="black"/>
+                    <path d="M2.55477 49.3632C2.7124 49.4051 2.87191 49.425 3.02892 49.425C3.69178 49.425 4.3073 49.0694 4.51894 48.5127C4.82191 47.7156 5.17638 46.9243 5.57276 46.1612C5.9168 45.4982 5.55378 44.7274 4.76165 44.4396C3.96972 44.1519 3.04831 44.4556 2.70406 45.1182C2.26556 45.9628 1.87335 46.838 1.53828 47.7197C1.27659 48.4084 1.73177 49.1443 2.55477 49.3632Z" fill="black"/>
+                    <path d="M10.1896 37.9563C9.53588 37.4837 8.54816 37.5446 7.98393 38.0912C7.2631 38.7894 6.57689 39.526 5.94427 40.2804C5.44822 40.8721 5.61899 41.6879 6.32606 42.1031C6.59941 42.2634 6.9126 42.3406 7.22307 42.3406C7.71536 42.3406 8.20015 42.1464 8.50458 41.7835C9.07736 41.1006 9.69851 40.434 10.3509 39.8019C10.9154 39.2549 10.8432 38.4286 10.1896 37.9563Z" fill="black"/>
+                    <path d="M15.5188 32.6966C14.584 33.1835 13.6676 33.7164 12.795 34.2803C12.1115 34.7218 11.9854 35.5436 12.5131 36.1157C12.8213 36.4496 13.284 36.6244 13.7519 36.6244C14.0857 36.6244 14.422 36.5354 14.7066 36.3515C15.4963 35.8412 16.3257 35.3592 17.1717 34.9185C17.9048 34.5366 18.1291 33.7296 17.6727 33.116C17.2163 32.5024 16.2519 32.3147 15.5188 32.6966Z" fill="black"/>
+                    <path d="M23.6669 77.7435C22.7024 77.5553 21.7388 77.3183 20.8037 77.0395C19.9899 76.7975 19.0955 77.1522 18.8057 77.8332C18.5159 78.5138 18.9404 79.2623 19.754 79.5049C20.8001 79.8167 21.8777 80.0816 22.9565 80.2921C23.076 80.3155 23.1955 80.3267 23.3131 80.3267C24.0235 80.3267 24.6663 79.9188 24.8348 79.315C25.0308 78.6111 24.5079 77.9075 23.6669 77.7435Z" fill="black"/>
+                    <path d="M15.4515 74.8477C14.6145 74.4008 13.7993 73.9101 13.0282 73.3889C12.3564 72.9344 11.372 73.0218 10.829 73.5842C10.2861 74.1463 10.3907 74.97 11.0626 75.4243C11.9239 76.0068 12.8347 76.555 13.7697 77.0542C14.0303 77.1932 14.3214 77.2597 14.6091 77.2597C15.1254 77.2597 15.6308 77.0458 15.929 76.6546C16.3934 76.0452 16.1796 75.2364 15.4515 74.8477Z" fill="black"/>
+                    <path d="M7.12175 67.7983C6.66595 67.1847 5.70179 66.9961 4.96804 67.378C4.2345 67.7595 4.00972 68.5665 4.46574 69.1801C5.0504 69.9669 5.69491 70.7349 6.38175 71.463C6.69034 71.7903 7.14802 71.9609 7.61029 71.9609C7.94954 71.9609 8.29129 71.8691 8.5782 71.6795C9.25607 71.2318 9.372 70.409 8.83675 69.8418C8.22206 69.1898 7.64511 68.5024 7.12175 67.7983Z" fill="black"/>
+                    <path d="M32.541 78.1432C31.6173 78.235 30.6744 78.2818 29.7386 78.2818C28.875 78.2818 28.1748 78.8674 28.1748 79.5903C28.1748 80.3131 28.875 80.8988 29.7386 80.8988C30.7975 80.8988 31.8646 80.8459 32.9105 80.7419C33.7681 80.6566 34.3807 80.0057 34.2788 79.2881C34.1766 78.5703 33.3993 78.0577 32.541 78.1432Z" fill="black"/>
+                    <path d="M40.939 75.9011C40.0764 76.2947 39.1754 76.6459 38.2613 76.9448C37.4569 77.2079 37.0597 77.9668 37.3741 78.6399C37.6156 79.1565 38.2058 79.4723 38.831 79.4723C39.0203 79.4723 39.213 79.4433 39.4 79.3821C40.4367 79.0431 41.4582 78.6448 42.4363 78.1987C43.1947 77.8527 43.4743 77.058 43.0608 76.4235C42.6473 75.7889 41.6976 75.5553 40.939 75.9011Z" fill="black"/>
+                    <path d="M49.9971 71.072C49.3334 70.6098 48.3476 70.6847 47.7946 71.2402C47.1638 71.874 46.4789 72.4803 45.7587 73.043C45.1273 73.536 45.0933 74.364 45.6826 74.8925C45.9905 75.1685 46.4078 75.3081 46.826 75.3081C47.2082 75.3081 47.5913 75.1916 47.8928 74.956C48.7083 74.3192 49.4837 73.6325 50.1979 72.9151C50.7509 72.3596 50.6608 71.5347 49.9971 71.072Z" fill="black"/>
+                    <path d="M54.0441 63.9275C53.2231 63.7031 52.3405 64.0793 52.0728 64.7664C51.7679 65.5497 51.3995 66.3247 50.9781 67.0697C50.6086 67.7229 50.9418 68.5031 51.7225 68.8123C51.9385 68.8978 52.1662 68.9384 52.3906 68.9384C52.9763 68.9384 53.5378 68.6617 53.8051 68.1894C54.2832 67.3443 54.7009 66.4653 55.0468 65.5769C55.3141 64.8899 54.8654 64.1512 54.0441 63.9275Z" fill="black"/>
+                    <path d="M24.6357 29.4278C23.569 29.6577 22.5033 29.9369 21.4682 30.2572C20.6582 30.5079 20.2443 31.2604 20.5437 31.9382C20.7772 32.4665 21.3748 32.7933 22.0108 32.7933C22.1909 32.7933 22.3742 32.7671 22.5529 32.7116C23.4887 32.4222 24.4523 32.1699 25.4164 31.9619C26.2527 31.7815 26.7559 31.068 26.5405 30.3682C26.3249 29.6685 25.4727 29.2469 24.6357 29.4278Z" fill="black"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_12_78">
+                    <rect width="98" height="82" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+                Go Back
+            </button>
+        </router-link>
+    </div>
+    <div v-if="this.$store.state.banners.isLoader">
+        <LoaderVue/>
+    </div>
+</template>
+
+<script>
+    import {mapActions, mapMutations, mapState} from 'vuex'
+    import { app } from '../../shared/shopifyApp'
+    import { ResourcePicker, Toast } from '@shopify/app-bridge/actions'
+    import EditForm from './editForm/EditForm.vue';
+    import PreviewForm from './previewForm/PreviewForm.vue';
+    import LoaderVue from '../sharedComponents/LoaderVue.vue'
+
+    export default {
+        name: 'EditPage',
+        data() {
+            return {
+                form: {
+                    productId: Number,
+                    title: '',
+                    color: String,
+                    wysiwyg: String
+                },
+                openingProductPicker: false,
+                resPickerBtnName: ''
+            }
+        },
+        components: {
+            EditForm,
+            PreviewForm,
+            LoaderVue
+        },
+        methods: {
+            submit() {
+                this.$store.state.banners.bannerId >= 0 ? this.updateBanner() : this.createBanner()
+                const toastOptions = {
+                    message: this.toastMsg,
+                    duration: 2000,
+                };
+                const toastNotice = Toast.create(app, toastOptions);
+                toastNotice.dispatch(Toast.Action.SHOW);
+            },
+            changeResPickerBtnName() {
+                this.resPickerBtnName = this.bannerProductId ?  'Change product' : 'Add product'
+            },
+            res() {
+                const productPicker = ResourcePicker.create(app, {
+                resourceType: ResourcePicker.ResourceType.Product,
+                options: {
+                    selectMultiple: false,
+                    showHidden: false,
+                    showVariants: false,
+                    initialQuery:"",
+                }
+                })
+                productPicker.dispatch(ResourcePicker.Action.OPEN)
+                productPicker.subscribe(ResourcePicker.Action.SELECT, ({selection}) => {
+                    this.setProductTitlePreview(selection[0].title)
+                    this.setProductImgPreview(selection[0].images[0].originalSrc)
+                    this.inputProductId(Number(selection[0].id.slice(22)))
+                    this.changeResPickerBtnName()
+                })
+            },
+            inputTitle(value) {
+                this.setBannerTitle(value)
+            },
+            inputColor(value) {
+                this.setBannerColor(value)
+            },
+            inputProductId(value) {
+                this.setBannerProductId(value)
+            },
+            clearFields() {
+                this.form.title = ''
+                this.form.productId = ''
+                this.form.color = '#E5D6AE'
+                this.form.wysiwyg = ''
+                this.clearInputFields()
+                this.changeResPickerBtnName()
+            },
+            setFields() {
+                this.form.title = this.bannerTitle
+                this.form.color = this.bannerColor
+                this.form.productId = this.bannerProductId
+                this.changeResPickerBtnName()
+            },
+            ...mapActions({
+                createBanner: 'banners/createBanner',
+                updateBanner: 'banners/updateBanner',
+                clearInputFields: 'banners/clearInputFields'
+            }),
+            ...mapMutations({
+                setBannerColor: 'banners/setBannerColor',
+                setBannerProductId: 'banners/setBannerProductId',
+                setBannerTitle: 'banners/setBannerTitle',
+                setProductTitlePreview: 'banners/setProductTitlePreview',
+                setProductImgPreview: 'banners/setProductImgPreview'
+            })
+        },
+        computed: {
+            ...mapState({
+                bannerTitle: state => state.banners.bannerTitle,
+                bannerColor: state => state.banners.bannerColor,
+                bannerProductId: state => state.banners.bannerProductId,
+                bannertId: state => state.banners.bannerId,
+                productTitlePreview: state => state.banners.productTitlePreview,
+                productImgPreview: state => state.banners.productImgPreview,
+                toastMsg: state => state.banners.toastMsg
+            }),
+        },
+        mounted() {
+            this.bannertId >= 0 ? this.setFields() : this.clearFields()
+        }
+    }
+</script>
+
+<style>
+    .bl-edit__main {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .bl-main__left {
+        border-right: 1px solid var(--color-black);
+        height: 100%;
+        width: 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bl-main__form {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bl-main__right {
+        width: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bl-form__field {
+        height: 150px;
+        width: 90%;
+        border-radius: 5px;
+        border: 1px solid rgba(0, 0, 0, .05);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, .25);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    .bl-form__input {
+        width: 90%;
+        box-sizing: border-box;
+        align-self: center;
+        padding: 8px 0;
+        font-size: 18px;
+        border: 1px solid var(--color-black);
+        border-radius: 5px;
+    }
+
+    .bl-form__button {
+        width: 90%;
+        align-self: center;
+        padding: 8px 0;
+        font-size: 18px;
+        background-color: var(--color-white);
+        border: 1px solid var(--color-black);
+        border-radius: 5px;
+    }
+
+    .bl-form__input-color {
+        padding: 0;
+        border: none;
+        height: 50px;
+    }
+
+    .bl-form__label {
+        padding-left: 10px;
+        font-size: 20px;
+        font-weight: 400;
+        font-family: 'Inter';
+        color: var(--color-black);
+    }
+
+    .bl-form__preview {
+        padding-left: 10px;
+        font-size: 20px;
+        font-weight: 400;
+        font-family: 'Inter';
+        color: var(--color-black);
+        display: flex;
+        align-items: center;
+    }
+
+    .bl-preview__img {
+        width: 25px;
+        height: 25px;
+        padding-left: 5px;
+        object-fit: contain;
+    }
+
+    .bl-back__btn {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        border: none;
+        background: none;
+        display: flex;
+        align-items: center;
+    }
+
+    .bl-back__btn:hover {
+        cursor: pointer;
+    }
+
+    .bl-from__submit {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        padding: 12px 16px;
+        background: none;
+        border: 1px solid var(--color-black);
+        border-radius: 25px;
+        font-size: 20px;
+        font-family: 'Inter';
+        font-weight: 500;
+        color: var(--color-black);
+    }
+    
+    .bl-from__submit:hover {
+        cursor: pointer;
+    }
+
+    .bl-form__button:hover {
+        cursor: pointer;
+    }
+
+    .bl-form__wysiwyg {
+        height: 30%;
+        width: 100%;
+    }
+
+    .bl-form__margin {
+        margin: 12px 0;
+    }
+</style>Polaris-Frame-ToastManager__ToastWrapper_ayjlu Polaris-Frame-ToastManager--toastWrapperEnterDone_7c702
