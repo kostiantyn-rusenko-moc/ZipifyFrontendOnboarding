@@ -1,5 +1,7 @@
 <template>
-    <div class="loader"/>
+    <div class="bl-blur">
+        <div class="bl-loader"/>
+    </div>
 </template>
 
 <script>
@@ -9,8 +11,17 @@
 </script>
 
 <style>
-    .loader {
+    .bl-blur {
         position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(5px);
+    }
+
+    .bl-loader {
+        position: fixed;
         top: 45%;
         left: 45%;
         border: 16px solid var(--color-grey);
@@ -20,6 +31,7 @@
         height: 120px;
         -webkit-animation: spin 2s linear infinite; /* Safari */
         animation: spin 2s linear infinite;
+        z-index: 1000;
     }
 
     /* Safari */

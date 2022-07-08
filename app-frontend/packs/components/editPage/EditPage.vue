@@ -11,15 +11,21 @@
                             type="text" v-model="form.title"
                             @input="inputTitle(form.title)"/>
                     </div>
+                   
                     <div 
                         class="bl-form__field 
                         bl-form__margin">
-                            <label class="bl-form__label">Product id</label>
-                            <button 
-                                class="bl-form__button" 
-                                type="button" 
+                            <div class="bl-form__preview">
+                                Product: {{this.productTitlePreview}} 
+                                <img class="bl-preview__img" v-if="this.productImgPreview"
+                                    v-bind:src= productImgPreview
+                                    alt="this.productTitlePreview"/>
+                            </div>
+                            <button
+                                class="bl-form__button"
+                                type="button"
                                 @click="res()">
-                                    Click to open
+                                    {{this.resPickerBtnName}}
                             </button>
                     </div>
                     <div
@@ -85,9 +91,9 @@
 </template>
 
 <script>
-    import {mapActions, mapState} from 'vuex'
+    import {mapActions, mapMutations, mapState} from 'vuex'
     import { app } from '../../shared/shopifyApp'
-    import { ResourcePicker } from '@shopify/app-bridge/actions'
+    import { ResourcePicker, Toast } from '@shopify/app-bridge/actions'
     import EditForm from './editForm/EditForm.vue';
     import PreviewForm from './previewForm/PreviewForm.vue';
     import LoaderVue from '../sharedComponents/LoaderVue.vue'
@@ -103,6 +109,7 @@
                     wysiwyg: String
                 },
                 openingProductPicker: false,
+                resPickerBtnName: ''
             }
         },
         components: {
@@ -113,6 +120,15 @@
         methods: {
             submit() {
                 this.$store.state.banners.bannerId >= 0 ? this.updateBanner() : this.createBanner()
+                const toastOptions = {
+                    message: this.toastMsg,
+                    duration: 2000,
+                };
+                const toastNotice = Toast.create(app, toastOptions);
+                toastNotice.dispatch(Toast.Action.SHOW);
+            },
+            changeResPickerBtnName() {
+                this.resPickerBtnName = this.bannerProductId ?  'Change product' : 'Add product'
             },
             res() {
                 const productPicker = ResourcePicker.create(app, {
@@ -126,34 +142,46 @@
                 })
                 productPicker.dispatch(ResourcePicker.Action.OPEN)
                 productPicker.subscribe(ResourcePicker.Action.SELECT, ({selection}) => {
+                    this.setProductTitlePreview(selection[0].title)
+                    this.setProductImgPreview(selection[0].images[0].originalSrc)
                     this.inputProductId(Number(selection[0].id.slice(22)))
+                    this.changeResPickerBtnName()
                 })
             },
             inputTitle(value) {
-                this.$store.commit('banners/setBannerTitle', value)
+                this.setBannerTitle(value)
             },
             inputColor(value) {
-                this.$store.commit('banners/setBannerColor', value)
+                this.setBannerColor(value)
             },
             inputProductId(value) {
-                this.$store.commit('banners/setBannerProductId', value)
+                this.setBannerProductId(value)
             },
             clearFields() {
                 this.form.title = ''
                 this.form.productId = ''
-                this.form.color = '#FFFFFF'
+                this.form.color = '#E5D6AE'
                 this.form.wysiwyg = ''
                 this.clearInputFields()
+                this.changeResPickerBtnName()
             },
             setFields() {
                 this.form.title = this.bannerTitle
                 this.form.color = this.bannerColor
                 this.form.productId = this.bannerProductId
+                this.changeResPickerBtnName()
             },
             ...mapActions({
                 createBanner: 'banners/createBanner',
                 updateBanner: 'banners/updateBanner',
                 clearInputFields: 'banners/clearInputFields'
+            }),
+            ...mapMutations({
+                setBannerColor: 'banners/setBannerColor',
+                setBannerProductId: 'banners/setBannerProductId',
+                setBannerTitle: 'banners/setBannerTitle',
+                setProductTitlePreview: 'banners/setProductTitlePreview',
+                setProductImgPreview: 'banners/setProductImgPreview'
             })
         },
         computed: {
@@ -161,7 +189,10 @@
                 bannerTitle: state => state.banners.bannerTitle,
                 bannerColor: state => state.banners.bannerColor,
                 bannerProductId: state => state.banners.bannerProductId,
-                bannertId: state => state.banners.bannerId
+                bannertId: state => state.banners.bannerId,
+                productTitlePreview: state => state.banners.productTitlePreview,
+                productImgPreview: state => state.banners.productImgPreview,
+                toastMsg: state => state.banners.toastMsg
             }),
         },
         mounted() {
@@ -248,6 +279,23 @@
         color: var(--color-black);
     }
 
+    .bl-form__preview {
+        padding-left: 10px;
+        font-size: 20px;
+        font-weight: 400;
+        font-family: 'Inter';
+        color: var(--color-black);
+        display: flex;
+        align-items: center;
+    }
+
+    .bl-preview__img {
+        width: 25px;
+        height: 25px;
+        padding-left: 5px;
+        object-fit: contain;
+    }
+
     .bl-back__btn {
         position: fixed;
         top: 10px;
@@ -292,4 +340,4 @@
     .bl-form__margin {
         margin: 12px 0;
     }
-</style>
+</style>Polaris-Frame-ToastManager__ToastWrapper_ayjlu Polaris-Frame-ToastManager--toastWrapperEnterDone_7c702

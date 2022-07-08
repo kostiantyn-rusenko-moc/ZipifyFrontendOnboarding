@@ -7,11 +7,14 @@ export const bannerModule = {
             wysiwygText: '',
             wysiwygHtml: '',
             bannerTitle: '',
-            bannerColor: '#FFFFFF',
+            bannerColor: '#E5D6AE',
             bannerProductId: Number,
             bannerId: Number,
             isLoader: false,
             responseData: Boolean,
+            productTitlePreview: '',
+            productImgPreview: '',
+            toastMsg: '',
         }
     },
     mutations: {
@@ -35,6 +38,15 @@ export const bannerModule = {
         },
         setBannerId(state, value) {
             state.bannerId = value
+        },
+        setProductTitlePreview(state, value) {
+            state.productTitlePreview = value
+        },
+        setProductImgPreview(state, value) {
+            state.productImgPreview = value
+        },
+        setToastMsg(state, value) {
+            state.toastMsg = value
         }
 
     },
@@ -49,17 +61,25 @@ export const bannerModule = {
                     state.isLoader = false
                 })
         },
-        createBanner({state}) {
+        createBanner({state, commit}) {
             state.isLoader = true
             axios.post('/api/v1/banners', {
                 banner: {
                     title: state.bannerTitle,
                     style: {
-                        backgoundColor: state.bannerColor
+                        backgoundColor: state.bannerColor,
+                        productPreview: {
+                            title: state.productTitlePreview,
+                            img: state.productImgPreview
+                        }
                     },
                     content: state.wysiwygHtml,
                     product_id: state.bannerProductId,
                 }
+            }).then(() => {
+                commit('setToastMsg', 'Bannser saved')
+            }).catch(err => {
+                commit('setToastMsg', Object.values(JSON.parse(err.response.request.response).error)[0][0])
             }).finally(() => {
                 state.isLoader = false
             })
@@ -78,6 +98,8 @@ export const bannerModule = {
                 commit('setBannerColor', res.data.data.style.backgoundColor)
                 commit('setBannerProductId', res.data.data.product_id)
                 commit('setWysiwygHtml', res.data.data.content)
+                commit('setProductTitlePreview', res.data.data.style.productPreview.title)
+                commit('setProductImgPreview', res.data.data.style.productPreview.img)
             }).then(()=> router.push('edit'))
             
         },
@@ -100,8 +122,10 @@ export const bannerModule = {
             commit('setWysiwygText', '')
             commit('setWysiwygHtml', '')
             commit('setBannerTitle', '');
-            commit('setBannerColor', '#FFFFFF')
+            commit('setBannerColor', '#E5D6AE')
             commit('setBannerProductId', '')
+            commit('setProductTitlePreview', '')
+            commit('setProductImgPreview', '')
         }
     },
     namespaced: true
