@@ -1,7 +1,7 @@
 <template>
     <div class="bl-main__preview">
         <div
-            :style="{'background-color': this.$store.state.banners.bannerColor}"
+            :style="{'background-color': bannerColor}"
             class="bl-preview__banner"  v-html="wysiwygHtml">
         </div>
         <div class="bl-main__skeleton">
@@ -16,7 +16,8 @@
     export default {
         computed: {
             ...mapState ({
-                wysiwygHtml: state => state.banners.wysiwygHtml
+                wysiwygHtml: state => state.banners.wysiwygHtml,
+                bannerColor: state => state.banners.bannerColor
             })
         },
     }

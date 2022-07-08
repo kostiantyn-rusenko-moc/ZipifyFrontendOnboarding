@@ -7,10 +7,11 @@ export const bannerModule = {
             wysiwygText: '',
             wysiwygHtml: '',
             bannerTitle: '',
-            bannerColor: '#FFFFF',
+            bannerColor: '#FFFFFF',
             bannerProductId: Number,
             bannerId: Number,
-            isLoader: false
+            isLoader: false,
+            responseData: Boolean,
         }
     },
     mutations: {
@@ -43,6 +44,7 @@ export const bannerModule = {
             axios.get('/api/v1/banners')
                 .then((res) => {
                     commit('setData', res.data.data)
+                    state.responseData = !!state.bannersData.length
                 }).finally(() => {
                     state.isLoader = false
                 })
@@ -93,6 +95,13 @@ export const bannerModule = {
             }).finally(() => {
                 state.isLoader = false
             })
+        },
+        clearInputFields({commit}) {
+            commit('banners/setWysiwygText', '')
+            commit('banners/setWysiwygHtml', '')
+            commit('banners/setBannerTitle', '');
+            commit('banners/setBannerColor', '#FFFFFF')
+            commit('banners/setBannerProductId', '')
         }
     },
     namespaced: true

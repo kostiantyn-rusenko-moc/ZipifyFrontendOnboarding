@@ -1,7 +1,7 @@
 <template>
     <div class="bl-editor-container"
-        @keyup="getQuill"
-        @click="getQuill">
+        @keyup="getQuill()"
+        @click="getQuill()">
             <div
                 class="bl-editor-container2"
                 id="editor-container"/>
@@ -73,7 +73,7 @@
         },
         mounted() {
             this.editorUp()
-            this.bannerId >= 0 ? this.drawHtml() :  this.clearHtml()
+            // this.bannerId >= 0 ? this.drawHtml() :  this.clearHtml()
         },
     }
 </script>

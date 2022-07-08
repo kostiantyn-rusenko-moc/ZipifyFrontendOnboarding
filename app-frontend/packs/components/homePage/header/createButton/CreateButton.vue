@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
     export default {
         methods: {
             createNew() {
@@ -22,12 +24,13 @@
                 this.form.productId = ''
                 this.form.color = '#FFFFFF'
                 this.form.wysiwyg = ''
-                this.$store.commit('banners/setWysiwygText', '')
-                this.$store.commit('banners/setWysiwygHtml', '')
-                this.$store.commit('banners/setBannerTitle', '');
-                this.$store.commit('banners/setBannerColor', '#FFFFFF')
-                this.$store.commit('banners/setBannerProductId', '')
+                this.clearInputFields()
             },
+            methods: {
+                ...mapActions({
+                    clearInputFields: 'banners/clearInputFields'
+                })
+            }
         }
     }
 </script>

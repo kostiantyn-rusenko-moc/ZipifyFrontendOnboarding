@@ -1,5 +1,5 @@
 <template>
-    <div v-if="responseData" class="bl-main__cards">
+    <div v-if="this.$store.state.banners.responseData" class="bl-main__cards">
         <div 
             class="bl-cards__card"
             v-for="card in this.$store.state.banners.bannersData"
@@ -74,23 +74,12 @@
     
     export default {
         name: "MainApp",
-        data() {
-            return {
-                responseData: Boolean,
-            }
-        },
         components: {
             Card,
             LoaderVue,
         },
-        methods: {
-            isTrue() {
-                return this.responseData = !!this.$store.state.banners.bannersData.length
-            }
-        },
-        async mounted() {
-            await this.$store.dispatch('banners/fetchBanners')
-            await this.isTrue()
+        mounted() {
+            this.$store.dispatch('banners/fetchBanners')
         }
     }
 </script>

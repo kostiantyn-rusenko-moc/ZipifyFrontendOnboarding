@@ -112,12 +112,7 @@
         },
         methods: {
             submit() {
-                if(this.$store.state.banners.bannerId >= 0) {
-                    this.updateBanner()
-                } else {
-                    this.createBanner()
-                }
-                
+                this.$store.state.banners.bannerId >= 0 ? this.updateBanner() : this.createBanner()
             },
             res() {
                 const productPicker = ResourcePicker.create(app, {
@@ -148,20 +143,17 @@
                 this.form.productId = ''
                 this.form.color = '#FFFFFF'
                 this.form.wysiwyg = ''
-                this.$store.commit('banners/setWysiwygText', '')
-                this.$store.commit('banners/setWysiwygHtml', '')
-                this.$store.commit('banners/setBannerTitle', '');
-                this.$store.commit('banners/setBannerColor', '#FFFFFF')
-                this.$store.commit('banners/setBannerProductId', '')
+                this.clearInputFields()
             },
             setFields() {
-                this.form.title = this.$store.state.banners.bannerTitle
-                this.form.color = this.$store.state.banners.bannerColor
-                this.form.productId = this.$store.state.banners.bannerProductId
+                this.form.title = this.bannerTitle
+                this.form.color = this.bannerColor
+                this.form.productId = this.bannerProductId
             },
             ...mapActions({
                 createBanner: 'banners/createBanner',
-                updateBanner: 'banners/updateBanner'
+                updateBanner: 'banners/updateBanner',
+                clearInputFields: 'banners/clearInputFields'
             })
         },
         computed: {
@@ -173,11 +165,7 @@
             }),
         },
         mounted() {
-            if (this.bannertId >= 0) {
-                this.setFields()
-            } else {
-                this.clearFields()
-            }
+            this.bannertId >= 0 ? this.setFields() : this.clearFields()
         }
     }
 </script>

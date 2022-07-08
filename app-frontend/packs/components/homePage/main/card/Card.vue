@@ -10,13 +10,13 @@
             @click="onClick"
             class="bl-card__settings"/>
         <div
-            v-if="isShow"
+            v-if="isShowControls"
             class="bl-card__controls">
                 <BannersControl/>
         </div>
     </div>
     <div
-        v-if="isShowBack"
+        v-if="isShowBackBlure"
         class="bl-back"
         @click="hideBack">
     </div>
@@ -28,8 +28,8 @@
     export default {
         data() {
             return {
-                isShow: false,
-                isShowBack: false
+                isShowControls: false,
+                isShowBackBlure: false
             }
         },
         components: {
@@ -43,13 +43,13 @@
         },
         methods: {
             onClick() {
-               this.isShow = !this.isShow
-               this.isShowBack = !this.isShowBack
+               this.isShowControls = !this.isShowControls
+               this.isShowBackBlure = !this.isShowBackBlure
                this.$store.commit('banners/setBannerId',this.card.id)
                this.$store.commit('banners/setBannerTitle', this.card.title)
             },
             hideBack() {
-                this.isShowBack = false
+                this.isShowBackBlure = false
                 this.isShow = false
             }
         }
